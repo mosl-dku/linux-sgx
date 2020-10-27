@@ -35,6 +35,11 @@
 #include "Enclave.h"
 #include "Enclave_t.h"  /* print_string */
 
+#include "sgx_trts.h"
+#include "sgx_error.h"
+#include "sgx_report.h"
+#include "sgx_utils.h"
+
 /* 
  * printf: 
  *   Invokes OCALL to display the enclave buffer to the terminal.
@@ -47,4 +52,13 @@ void printf(const char *fmt, ...)
     vsnprintf(buf, BUFSIZ, fmt, ap);
     va_end(ap);
     ocall_print_string(buf);
+}
+
+uint32_t enclave_create_report(const sgx_target_info_t* p_qe3_target, sgx_report_t* p_report)
+{
+   sgx_report_data_t report_data = { 0 };
+
+   sgx_status_t sgx_error = sgx_create_report(p_qe3_target, &report_data, p_report);
+
+   return sgx_error;
 }

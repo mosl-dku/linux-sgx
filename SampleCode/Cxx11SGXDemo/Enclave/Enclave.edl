@@ -32,7 +32,13 @@
 /* Enclave.edl - Top EDL file. */
 
 enclave {
-    
+
+    include "sgx_report.h"
+
+    trusted{
+	public uint32_t enclave_create_report([in]const sgx_target_info_t* p_qe3_target,
+					      [out]sgx_report_t* p_report);
+    };    
 
     /* Import ECALL/OCALL from sub-directory EDLs.
      *  [from]: specifies the location of EDL file. 
